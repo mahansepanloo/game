@@ -3,6 +3,8 @@ from datetime import timedelta
 import environ
 env = environ.Env()
 environ.Env.read_env(".env")
+from celery.schedules import crontab
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,4 +132,11 @@ REST_FRAMEWORK = {
 SIMPLE_JWT={
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+CELERY_BEAT_SCHEDULE = {
+    'restart':
+        {
+            'task': 'gamesmanager.tasks.restart',
+            'schedule': crontab(minute = 59, hour = 23),
+        }
 }
