@@ -6,7 +6,6 @@ class Bottle(models.Model):
     sender = models.ForeignKey(Player, on_delete=models.CASCADE,related_name='sbottle',blank=True,null=True)
     receiver = models.ForeignKey(Player, on_delete=models.CASCADE,null=True, blank=True)
     text = models.TextField()
-    answer = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     max_x = models.FloatField()
@@ -18,5 +17,14 @@ class Bottle(models.Model):
     def __str__(self):
         return self.sender.user.username
 
+
+class Answer(models.Model):
+    user = models.ForeignKey(Player, on_delete=models.CASCADE,related_name='uA')
+    question = models.ForeignKey(Bottle, on_delete=models.CASCADE,related_name='qA')
+    created = models.DateTimeField(auto_now_add=True)
+    body = models.TextField()
+
+    def __str__(self):
+        return self.user.user.username
 
 
